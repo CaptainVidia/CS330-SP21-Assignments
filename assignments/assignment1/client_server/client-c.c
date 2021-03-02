@@ -1,3 +1,15 @@
+/*****************************************************************************
+ * client-c.c                                                                 
+ * Name:
+ *****************************************************************************/
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <errno.h>
+#include <string.h>
+#include <sys/socket.h>
+#include <sys/types.h>
 #include <netdb.h>
 #include <netinet/in.h>
 #include <errno.h>
@@ -9,7 +21,7 @@
  * Open socket and send message from stdin.
  * Return 0 on success, non-zero on failure
 */
-int client(char* server_ip, char* server_port)
+int client(char *server_ip, char *server_port) 
 {
     //client() function 
     int sd = = 1;
@@ -23,14 +35,14 @@ int client(char* server_ip, char* server_port)
     server_addr.sin_addr.s_addr = inet_addr(server_ip);
 
     memset(server_addr.sin_zero, '\0', sizeof server_addr.sin_zero);
-    if ((connect(sd, (struct sockaddr*)&server_addr, sizeof(server_addr))) < 0)
+    if ((connect(sd,(struct sockaddr *) &server_addr, sizeof(server_addr))) < 0)
     {
         printf("Error connecting to server \n");
         return -1;
     }
 
     fgets(buff, SEND_BUFFER_SIZE, stdin);
-    if (write(sd, buff, sizeof(buff)) < 0)
+    if (write(sd,buff,sizeof(buff)) < 0)
     {
         perror("error sending message");
         exit(1);
@@ -43,16 +55,16 @@ int client(char* server_ip, char* server_port)
  * main()
  * Parse command-line arguments and call client function
 */
-int main(int argc, char** argv) {
-    char* server_ip;
-    char* server_port;
+int main(int argc, char **argv) {
+  char *server_ip;
+  char *server_port;
 
-    if (argc != 3) {
-        fprintf(stderr, "Usage: ./client-c [server IP] [server port] < [message]\n");
-        exit(EXIT_FAILURE);
-    }
+  if (argc != 3) {
+    fprintf(stderr, "Usage: ./client-c [server IP] [server port] < [message]\n");
+    exit(EXIT_FAILURE);
+  }
 
-    server_ip = argv[1];
-    server_port = argv[2];
-    return client(server_ip, server_port);
+  server_ip = argv[1];
+  server_port = argv[2];
+  return client(server_ip, server_port);
 }

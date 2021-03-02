@@ -1,5 +1,5 @@
 /*****************************************************************************
- * server-c.c
+ * server-c.c                                                                 
  * Name:
  *****************************************************************************/
 
@@ -17,12 +17,12 @@
 #define QUEUE_LENGTH 10
 #define RECV_BUFFER_SIZE 2048
 
- /* TODO: server()
-  * Open socket and wait for client to connect
-  * Print received message to stdout
-  * Return 0 on success, non-zero on failure
- */
-int server(char* server_port)
+/* TODO: server()
+ * Open socket and wait for client to connect
+ * Print received message to stdout
+ * Return 0 on success, non-zero on failure
+*/
+int server(char *server_port) 
 {
     //server() function
     int sd = -1;
@@ -42,13 +42,13 @@ int server(char* server_port)
     server_addr.sin_port = htons(atoi(server_port));
     server_addr.sin_addr.s_addr = INADDR_ANY;
 
-    if (bind(sd_init, (const struct sockaddr*)&server_addr, sizeof(struct sockaddr)) < 0)
+    if (bind(sd_init,(const struct sockaddr *) &server_addr, sizeof(struct sockaddr)) < 0)
     {
         perror("Error binding port to socket\n");
         exit(1);
     }
 
-    if (listen(sd_init, 5) == 0)
+    if (listen(sd_init,5) == 0)
     {
         printf("Listening on socket .... \n");
     }
@@ -60,7 +60,7 @@ int server(char* server_port)
 
     sd = accept(sd_init, (const struct sockaddr*)&server_addr, &addr_size);
 
-    if (sd < 0)
+    if (sd<0)
     {
         perror("Error accepting connection");
         exit(1);
@@ -78,14 +78,14 @@ int server(char* server_port)
  * main():
  * Parse command-line arguments and call server function
 */
-int main(int argc, char** argv) {
-    char* server_port;
+int main(int argc, char **argv) {
+  char *server_port;
 
-    if (argc != 2) {
-        fprintf(stderr, "Usage: ./server-c [server port]\n");
-        exit(EXIT_FAILURE);
-    }
+  if (argc != 2) {
+    fprintf(stderr, "Usage: ./server-c [server port]\n");
+    exit(EXIT_FAILURE);
+  }
 
-    server_port = argv[1];
-    return server(server_port);
+  server_port = argv[1];
+  return server(server_port);
 }
